@@ -1,4 +1,4 @@
-let results = [
+let data = [
     {
         "gender": "female",
         "name": {
@@ -530,6 +530,8 @@ let results = [
         "nat": "US"
     }
 ]
+// localStorage.setItem("results", JSON.stringify(data));   
+let results = JSON.parse(localStorage.getItem("results")) || data
 
 let tablebody = document.querySelector(".table-body");
 
@@ -557,7 +559,6 @@ let addButtonNYes = document.querySelector(".add-button-yes")
 let addForm = document.querySelector(".add-form")
 
 function renderTable (arr){
-    console.log(arr);
     tablebody.innerHTML = "";
     
     if (arr.length < 1) {
@@ -592,6 +593,7 @@ function renderTable (arr){
         })
         tablebody.innerHTML = allPeople.join("")
     }
+    localStorage.setItem("results", JSON.stringify(results))
 }
 renderTable(results);
 
@@ -611,8 +613,10 @@ function deleteUser (id) {
     modalWrapper.classList.remove("scale-0");
 
     buttonYes.addEventListener("click", ()=>{
-        const user = results.filter(person => person.id !== id);
-        renderTable(user);
+        results = results.filter(person => person.id != id);  
+        console.log(results);
+        renderTable(results);
+        localStorage.setItem("results", JSON.stringify(results))
         modalWrapper.classList.add("scale-0")
         modalWrapper.classList.remove("scale-100")
     })
